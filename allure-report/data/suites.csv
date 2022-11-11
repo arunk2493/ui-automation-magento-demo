@@ -1,0 +1,4 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Fri Nov 11 17:36:54 IST 2022","Fri Nov 11 17:37:00 IST 2022","5845","","register-tests.spec.ts","Register New User","","","Register_User_Verify_Weak_Password",""
+"passed","Fri Nov 11 17:36:41 IST 2022","Fri Nov 11 17:36:54 IST 2022","12964","","login-page-tests.spec.ts","Login Test suite","","","Login with registered user",""
+"passed","Fri Nov 11 17:36:41 IST 2022","Fri Nov 11 17:36:55 IST 2022","14462","","register-tests.spec.ts","Register New User","","","Register_User",""
