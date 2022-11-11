@@ -1,18 +1,35 @@
-import { Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
+import FrameworkHelpers from "../helpers/FrameworkUtility";
 
-export default class LoginPage{
+export default class LoginPage extends FrameworkHelpers{
 
     linkSignIn:string = ".authorization-link>a";
+    inputEmailId:string = "#email";
+    inputPassword:string = "#pass";
+    buttonSignIn:string = "#send2";
+    textGreetMessage:string = ".logged-in";
+    textFormTitle:string = "//h1[@class='page-title']//span[1]";
+    
+    helpers = new FrameworkHelpers(this.page);
 
+    constructor(public page: Page){
+        super(page);
+    }
 
-    constructor(public page: Page){}
+    async loginUser(){
+        await this.page.click(this.linkSignIn);
+    }
+    async enterLoginDetails(emailId:string,password:string){
+        await this.page.type(this.inputEmailId,emailId,{delay:100});
+        await this.page.type(this.inputPassword,password);
+        await this.page.click(this.buttonSignIn);
+    }
+    async getLoginWelcomeMessage():Promise<string>{
+        const welcomeMessage = await this.helpers.getInnerTextValue(this.textGreetMessage);
+        return welcomeMessage;
+    }
 
-    async  getInnerTextValue(selector:string): Promise<string>{
-        await this.page.waitForSelector(selector);
-        const innerTextValue = await this.page.innerText(selector);
-        return innerTextValue;
-
-   }
+    
 
 
 }

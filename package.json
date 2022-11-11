@@ -1,0 +1,24 @@
+{
+  "name": "uiautomation-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "localconfig": "playwright test --config=tests/playwright.config.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arunk2493/ui-automation-magento-demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arunk2493/ui-automation-magento-demo/issues"
+  },
+  "homepage": "https://github.com/arunk2493/ui-automation-magento-demo#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.27.1",
+    "allure-playwright": "^2.0.0-beta.19"
+  }
+}
