@@ -32,7 +32,7 @@ const config: PlaywrightTestConfig = {
     /* Collect trace when retrying the failed test. */
     trace: 'on-first-retry',
     baseURL: 'https://magento.softwaretestingboard.com/',
-    video: 'retain-on-failure',
+    video: 'on',
     contextOptions: {
       recordVideo: {
         dir: './videosAll' // Or wherever you want the videos to be saved.

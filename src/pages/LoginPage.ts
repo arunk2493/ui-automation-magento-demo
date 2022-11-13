@@ -2,14 +2,10 @@ import { expect, Page } from "@playwright/test";
 import FrameworkHelpers from "../helpers/FrameworkUtility";
 
 export default class LoginPage extends FrameworkHelpers{
-
-    linkSignIn:string = ".authorization-link>a";
     inputEmailId:string = "#email";
     inputPassword:string = "#pass";
     buttonSignIn:string = "#send2";
-    textGreetMessage:string = ".logged-in";
-    textFormTitle:string = "//h1[@class='page-title']//span[1]";
-    
+
     helpers = new FrameworkHelpers(this.page);
 
     constructor(public page: Page){
@@ -20,6 +16,12 @@ export default class LoginPage extends FrameworkHelpers{
         await this.page.click(this.linkSignIn);
     }
     async enterLoginDetails(emailId:string,password:string){
+        await this.page.type(this.inputEmailId,emailId,{delay:100});
+        await this.page.type(this.inputPassword,password);
+        await this.page.click(this.buttonSignIn);
+    }
+    async enterExistingLoginDetails(emailId:string,password:string){
+        await this.loginUser();
         await this.page.type(this.inputEmailId,emailId,{delay:100});
         await this.page.type(this.inputPassword,password);
         await this.page.click(this.buttonSignIn);

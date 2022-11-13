@@ -1,4 +1,4 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Fri Nov 11 17:36:54 IST 2022","Fri Nov 11 17:37:00 IST 2022","5845","","register-tests.spec.ts","Register New User","","","Register_User_Verify_Weak_Password",""
-"passed","Fri Nov 11 17:36:41 IST 2022","Fri Nov 11 17:36:54 IST 2022","12964","","login-page-tests.spec.ts","Login Test suite","","","Login with registered user",""
-"passed","Fri Nov 11 17:36:41 IST 2022","Fri Nov 11 17:36:55 IST 2022","14462","","register-tests.spec.ts","Register New User","","","Register_User",""
+"passed","Sat Nov 12 02:42:02 IST 2022","Sat Nov 12 02:42:29 IST 2022","27099","","place-order-tests.spec.ts","Order Submission","","","Place order from existing user",""
+"broken","Sat Nov 12 23:06:22 IST 2022","Sat Nov 12 23:06:54 IST 2022","31536","firefox","place-order-tests.spec.ts","Order Submission","","","Place order from existing user",""
+"broken","Sat Nov 12 22:19:55 IST 2022","Sat Nov 12 22:20:27 IST 2022","32781","chromium","place-order-tests.spec.ts","Order Submission","","","Place order from existing user",""

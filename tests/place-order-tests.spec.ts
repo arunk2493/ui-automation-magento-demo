@@ -8,44 +8,98 @@ test.describe("Order Submission",async()=>{
     const password = "Welcome@2023";
     
     test.beforeEach(async({page,baseURL})=>{
-        const loginPage = new LoginPage(page);
         await page.goto(`${baseURL}`);
-        loginPage.enterExistingLoginDetails(alreadyUserMail,password);
     })
 
     test("Place order from existing user",async({page})=>{
         const productPage = new ProductPage(page);
         const orderSummaryPage = new OrderSummaryPage(page);
-        const quantity = "1";
+        const quantity = "2";
+        const loginPage = new LoginPage(page);
+        
+        await loginPage.loginUser();
+        expect(await loginPage.getInnerTextValue(loginPage.textFormTitle)).toEqual('Customer Login');
+        await loginPage.enterLoginDetails(alreadyUserMail,password);
+        expect(await loginPage.getLoginWelcomeMessage()).toEqual('Welcome, ArunKumar Kumaraswamy!');
 
-        await productPage.selectMenu("Gear","Bags");
-        await productPage.selectShoppingOptions("Style");
-        await productPage.selectCategory();
-        await productPage.sortBy("name");
+        await productPage.selectMenu("Gear");
+        await productPage.selectSubMenu();
+        await productPage.clickDescendingOrderSort();
         await productPage.selectProduct("1");
-        await productPage.getProductDescription();
+        const description = await productPage.getProductDescription();
+        console.log("Product Description:"+description);
+        await productPage.enterQuantity(quantity);
         await productPage.clickAddToCart();
-        expect(productPage.getCartSuccessMessage()).toContain('You added Crown Summit Backpack');
-        expect(productPage.getCartCount()).toEqual(quantity);
-        await productPage.clickAddToCart();
-        expect(productPage.getCheckoutItemCount()).toEqual(quantity);
-        expect(productPage.getCheckoutPrice()).toEqual("$38.00");
-        await productPage.clickProceedToCheckOut();
-        expect(orderSummaryPage.getSummaryItemCount()).toEqual(quantity);
-        expect(orderSummaryPage.getSummaryItemName()).toEqual('Crown Summit Backpack');
-        expect(orderSummaryPage.getSummaryQuantity()).toEqual(quantity);
-        expect(orderSummaryPage.getSummaryCartPrice()).toEqual('$38.00');
-        expect(orderSummaryPage.getShippingCost()).toEqual('$5.00');
-        expect(orderSummaryPage.getShippingMethod()).toEqual('Fixed');
-        expect(orderSummaryPage.getShippingCarrier()).toEqual('Flat Rate');
+        
+        expect(await productPage.getCartSuccessMessage()).toContain('You added Push It Messenger Bag to your');
+        expect(await productPage.getCartCount()).toEqual(quantity);
+        
+        await productPage.clickToShoppingCart();
+        
+        expect(await orderSummaryPage.getSummaryItemName()).toEqual('Push It Messenger Bag');
+        expect(await orderSummaryPage.getGrandTotal()).toEqual('$90.00');
+        
+        await orderSummaryPage.clickProceedToCheckOut();
+        await orderSummaryPage.toggleShippingMethod();
         await orderSummaryPage.clickNextButton();
-        expect(orderSummaryPage.getGrandTotal()).toEqual('$43.00');
-        expect(orderSummaryPage.checkAddressAreSame()).toEqual(true);
-        expect(orderSummaryPage.getAddressDetails()).toContain('Arunk'+" "+'132324'+" "+'erode,'+" "+'Tamil Nadu'+" "+'638112'+'India'+" "+'1234567890');
+        
+        expect(await orderSummaryPage.getBillingAddressSame()).toEqual("My billing and shipping address are the same");
+        expect(await orderSummaryPage.checkAddressAreSame()).toBeTruthy();
+        
         await orderSummaryPage.clickPlaceOrder();
-        expect(orderSummaryPage.getOrderSuccessMessage()).toEqual('Thank you for your purchase!');
-        console.log("Order Number is:"+ await orderSummaryPage.getOrderNumber());        
-        await orderSummaryPage.clickSignOut();
+        const successMessage = await orderSummaryPage.getOrderSuccessMessage(); 
+        console.log(successMessage+" : "+" Your order id is: "+await orderSummaryPage.getOrderNumber());        
+
+    });
+    test("Add product to wishlist",async({page})=>{
+        const productPage = new ProductPage(page);
+        const quantity = "2";
+        const loginPage = new LoginPage(page);
+        
+        await loginPage.loginUser();
+        expect(await loginPage.getInnerTextValue(loginPage.textFormTitle)).toEqual('Customer Login');
+        await loginPage.enterLoginDetails(alreadyUserMail,password);
+        expect(await loginPage.getLoginWelcomeMessage()).toEqual('Welcome, ArunKumar Kumaraswamy!');
+
+        await productPage.selectMenu("Gear");
+        await productPage.selectSubMenu();
+        await productPage.clickDescendingOrderSort();
+        await productPage.selectProduct("1");
+        const description = await productPage.getProductDescription();
+        console.log("Product Description:"+description);
+        await productPage.enterQuantity(quantity);
+        await productPage.clickAddToWishList();
+        
+        expect(await productPage.getWishListHeader()).toEqual('My Wish List');
+        expect(await productPage.getWishListSuccessMessage()).toContain('Push It Messenger Bag has been added to your Wish List. Click');     
+
+    });
+    test("Add products to Compare List",async({page})=>{
+        const productPage = new ProductPage(page);
+        const quantity = "2";
+        const loginPage = new LoginPage(page);
+        
+        await loginPage.loginUser();
+        expect(await loginPage.getInnerTextValue(loginPage.textFormTitle)).toEqual('Customer Login');
+        await loginPage.enterLoginDetails(alreadyUserMail,password);
+        expect(await loginPage.getLoginWelcomeMessage()).toEqual('Welcome, ArunKumar Kumaraswamy!');
+
+        await productPage.selectMenu("Gear");
+        await productPage.selectSubMenu();
+        await productPage.clickDescendingOrderSort();
+        await productPage.selectProduct("1");
+        await productPage.clickAddToCompareList();
+        expect(await productPage.getCompareListSuccessMessage()).toContain('Push It Messenger Bag');
+
+        await productPage.selectMenu("Gear");
+        await productPage.selectSubMenu();
+        await productPage.clickDescendingOrderSort();
+        await productPage.selectProduct("2");
+        await productPage.clickAddToCompareList();
+        expect(await productPage.getCompareListSuccessMessage()).toContain('Overnight Duffle');
+
+        await productPage.clickToCompareList();
+        expect(await productPage.getInnerTextValue(productPage.textFormTitle)).toContain('Compare Products');     
 
     });
     test.afterEach(async({page})=>{

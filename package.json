@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
-    "localconfig": "playwright test --config=tests/playwright.config.ts"
+    "localconfig": "playwright test --config=tests/playwright.config.ts",
+    "singletest": "playwright test place-order-tests.spec.ts --headed --config=tests/playwright.config.ts"
+
   },
   "repository": {
     "type": "git",

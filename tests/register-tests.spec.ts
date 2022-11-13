@@ -61,10 +61,6 @@ test.describe("Register New User",async()=>{
         await registerPage.enterPassword(password);
         expect(await registerPage.getPasswordMeter()).toEqual('Weak');
     });
-
-    
-
-
     test.afterAll(async({page})=>{
         await page.close();
     })

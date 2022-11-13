@@ -1,8 +1,6 @@
 import {Page} from "@playwright/test";
 import FrameworkHelpers from "../helpers/FrameworkUtility";
 export default class RegisterPage extends FrameworkHelpers{
-
-    linkCreateAccount:string = "//a[text()='Create an Account']";
     textFirstName:string = "#firstname"
     textLastName:string = "#lastname";
     checkBoxIsSubscribed:string = "#is_subscribed";
@@ -10,7 +8,6 @@ export default class RegisterPage extends FrameworkHelpers{
     textPassword:string = "#password";
     textConfirmPassword:string = "#password-confirmation";
     buttonCreateAccount:string = "//button[@class='action submit primary']";
-    textFormTitle:string = "//h1[@class='page-title']//span[1]";
     textAccountInformation:string = ".block-content>div>div:nth-child(2)";
     textPasswordMeter:string = "#password-strength-meter-label";
 
@@ -58,9 +55,13 @@ export default class RegisterPage extends FrameworkHelpers{
         return accountInformation;
     }
     async getPasswordMeter(): Promise<string>{
-        await this.page.waitForSelector(this.textPasswordMeter);
-        const passwordStrength = await this.page.innerText(this.textPasswordMeter);
+        const passwordStrength = await this.helper.getInnerTextValue(this.textPasswordMeter);
         return passwordStrength;
+    }
+    async getSuccessMessage(): Promise<string>{
+        await this.page.waitForSelector(this.textSuccessMessage);
+        const successMessage = await this.helper.getInnerTextValue(this.textSuccessMessage)
+        return successMessage;
     }
 
 }
